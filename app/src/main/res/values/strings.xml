@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ES Imam Hambali</string>
+    <string-array name="kondisi_array">
+        <item>Bersuci dari Najis</item>
+        <item>Bersuci dari Hadas</item>
+    </string-array>
 </resources>
