@@ -16,48 +16,34 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inisialisasi Spinner dan Adapter untuk kondisi 1
         val kondisi1Options = listOf("Bersuci dari Najis", "Bersuci dari Hadas")
         val kondisi1Adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, kondisi1Options)
         kondisi1Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinner1.adapter = kondisi1Adapter
 
-        // Inisialisasi Spinner dan Adapter untuk kondisi 2
-        val kondisi2Options = listOf(
+        val kondisi2OptionsNajis = listOf("Terdapat air mutlak", "Terjadi perubahan pada najis")
+        val kondisi2OptionsHadas = listOf(
             "Terdapat air mutlak",
-            "Terjadi perubahan pada najis",
             "Tidak adanya air",
             "Tidak cukupnya air",
             "Sakit semakin parah jika terkena air",
             "Waktu yang terlalu sempit untuk menggunakan air"
         )
-        val kondisi2Adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, kondisi2Options)
-        kondisi2Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinner2.adapter = kondisi2Adapter
 
-        // Aksi ketika item dipilih di Spinner 1
         binding.spinner1.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Do nothing
+                val selected = kondisi1Options[position]
+                val kondisi2Options = if (selected == "Bersuci dari Najis") kondisi2OptionsNajis else kondisi2OptionsHadas
+                val kondisi2Adapter = ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, kondisi2Options)
+                kondisi2Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                binding.spinner2.adapter = kondisi2Adapter
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing
+
             }
         }
 
-        // Aksi ketika item dipilih di Spinner 2
-        binding.spinner2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Do nothing
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Do nothing
-            }
-        }
-
-        // Aksi ketika tombol SUBMIT ditekan
         binding.button.setOnClickListener {
             // Mendapatkan pilihan dari Spinner 1 dan Spinner 2
             val kondisi1 = binding.spinner1.selectedItem.toString()
@@ -71,7 +57,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Metode untuk menentukan hasil berdasarkan kondisi yang dipilih
     private fun aturanFikihImamHambali(kondisi1: String, kondisi2: String): String {
         return when {
             kondisi1 == "Bersuci dari Najis" && kondisi2 == "Terdapat air mutlak" -> "Air mutlak"
